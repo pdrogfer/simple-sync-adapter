@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickReadDb(View view) {
 
+        // here I use a simple array adapter, but for custom views and data-objects, a CursorAdapter
+        // is better
         ArrayList<String> arrayListDays = MyPresenter.loadDataFromDB(this);
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayListDays);
         lvResults.setAdapter(arrayAdapter);
