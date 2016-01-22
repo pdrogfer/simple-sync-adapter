@@ -40,37 +40,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickAddItem(View view) {
 
-        fetchDataFromWebServer();
+        MyPresenter.fetchDataFromWebServer(this);
 
     }
 
-    private String fetchDataFromWebServer() {
 
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://192.168.1.4/SimpleSyncAdapter/get_time_json.php", new JsonHttpResponseHandler() {
-            // client.get("http://kavy.servehttp.com/SimpleSyncAdapter/get_time_json.php", new JsonHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // tvResults.setText(response.toString());
-                try {
-                    String tempDay = response.getString(Contract.COL_DAY);
-                    String tempHour = response.getString(Contract.COL_HOUR);
-                    MyPresenter.addDayToDatabase(getApplicationContext(), tempDay, tempHour);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.i(Utilities.TAG, "error: " + errorResponse.toString());
-                answer = null;
-            }
-        });
-
-        return answer;
-    }
 
 
     public void onClickReadDb(View view) {
