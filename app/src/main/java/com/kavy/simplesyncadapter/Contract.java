@@ -5,10 +5,10 @@ package com.kavy.simplesyncadapter;
  */
 public class Contract {
 
-
     public static String DB_DAYS_NAME = "DB_the_last_days";
     public static String TABLE_DAYS_NAME = "TABLE_the_last_days";
     public static String COL_ID = "_id";
     public static String COL_DAY = "day";
     public static String COL_HOUR = "hour";
+    public static int DB_VERSION = 2;
 }

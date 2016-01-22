@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,21 +20,22 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
 
-    String currentTime;
-    TextView tvResults;
+    ListView lvResults;
     String answer;
+    ArrayAdapter arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvResults = (TextView) findViewById(R.id.tv_results);
+        lvResults = (ListView) findViewById(R.id.lv_results);
     }
 
     public void onClickAddItem(View view) {
@@ -53,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     String tempDay = response.getString(Contract.COL_DAY);
                     String tempHour = response.getString(Contract.COL_HOUR);
-                    addDayToDatabase(tempDay, tempHour);
+                    MyPresenter.addDayToDatabase(getApplicationContext(), tempDay, tempHour);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -69,19 +72,11 @@ public class MainActivity extends AppCompatActivity {
         return answer;
     }
 
-    private void addDayToDatabase(String day, String hour) {
-        MyDbHelper myDbHelper = new MyDbHelper(this, Contract.DB_DAYS_NAME, null, 1);
-        SQLiteDatabase db = myDbHelper.getWritableDatabase();
-        if (db != null) {
-            ContentValues newDayValues = new ContentValues();
-            newDayValues.put(Contract.COL_DAY, day);
-            newDayValues.put(Contract.COL_HOUR, hour);
-            Long i = db.insert(Contract.TABLE_DAYS_NAME, null, newDayValues);
-            if (i > 0) {
-                Toast.makeText(this, "D: " + day +
-                        " H: " + hour +
-                        " .Day stored in db", Toast.LENGTH_SHORT).show();
-            }
-        }
+
+    public void onClickReadDb(View view) {
+
+        ArrayList<String> arrayListDays = MyPresenter.loadDataFromDB(this);
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayListDays);
+        lvResults.setAdapter(arrayAdapter);
     }
 }

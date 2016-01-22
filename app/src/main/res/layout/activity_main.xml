@@ -10,16 +10,21 @@
     android:orientation="vertical"
     tools:context="com.kavy.simplesyncadapter.MainActivity">
 
-    <Button android:text="Add Item"
+    <Button android:text="Add Item To Database"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_add_item"
         android:onClick="onClickAddItem"/>
 
-
-    <TextView
+    <Button android:text="Read Database"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_results"
+        android:id="@+id/btn_read_db"
+        android:onClick="onClickReadDb"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv_results"
         android:text="Results" />
 </LinearLayout>
